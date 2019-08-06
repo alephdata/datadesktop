@@ -1,0 +1,51 @@
+{
+  "name": "@alephdata/visdesktop",
+  "version": "0.0.0",
+  "description": "desktop application for vislib",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alephdata/vis2.js.git"
+  },
+  "author": "OCCRP Data <data@occrp.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alephdata/visdesktop/issues"
+  },
+  "homepage": "https://github.com/alephdata/visdesktop#readme",
+  "dependencies": {
+    "@alephdata/followthemoney": "^1.14.2",
+    "@alephdata/vislib": "^0.0.3",
+    "@blueprintjs/core": "^3.15.1",
+    "@blueprintjs/datetime": "^3.9.0",
+    "@blueprintjs/select": "^3.8.0",
+    "@types/node": "11.13.8",
+    "@types/react": "16.8.15",
+    "@types/react-dom": "16.8.4",
+    "d3": "^5.9.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-draggable": "^3.3.0",
+    "react-scripts": "3.0.0",
+    "typescript": "3.5.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
