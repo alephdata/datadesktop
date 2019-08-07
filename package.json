@@ -11,27 +11,38 @@
   "bugs": {
     "url": "https://github.com/alephdata/visdesktop/issues"
   },
-  "homepage": "https://github.com/alephdata/visdesktop#readme",
+  "homepage": "./",
+  "main": "src/main/electron.js",
+  "build": {
+    "appId": "com.example.visDesktop",
+    "productName": "VIS Desktop",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  },
   "dependencies": {
-    "@alephdata/followthemoney": "^1.14.2",
-    "@alephdata/vislib": "^0.0.3",
-    "@blueprintjs/core": "^3.15.1",
-    "@blueprintjs/datetime": "^3.9.0",
-    "@blueprintjs/select": "^3.8.0",
-    "@types/node": "11.13.8",
-    "@types/react": "16.8.15",
-    "@types/react-dom": "16.8.4",
-    "d3": "^5.9.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-draggable": "^3.3.0",
-    "react-scripts": "3.0.0",
-    "typescript": "3.5.1"
+    "react-scripts": "3.0.1",
+    "typescript": "3.5.2",
+    "electron-is-dev": "^1.1.0",
+    "electron-updater": "^4.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "start-renderer-dev": "cross-env BROWSER=none npm run react-start",
+    "start-app-dev": "tsc-watch ./src/main/electron.ts --outDir ./dist --onSuccess \"electron ./dist/electron.js\" --onFailure \"echo Compilation Failed\" --compiler typescript/bin/tsc",
+    "electron-build": "electron-builder",
+    "electron-dist": "electron-builder -mwl -p always",
+    "build": "npm run react-build && npm run electron-build",
+    "release": "npm run react-build && npm run electron-dist"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,5 +58,26 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@alephdata/followthemoney": "^1.13.1",
+    "@alephdata/vislib": "0.0.3",
+    "@blueprintjs/core": "^3.15.1",
+    "@blueprintjs/datetime": "^3.9.0",
+    "@blueprintjs/select": "^3.8.0",
+    "@types/electron": "^1.6.10",
+    "@types/jest": "24.0.15",
+    "@types/node": "12.0.10",
+    "@types/react": "16.8.22",
+    "@types/react-dom": "16.8.4",
+    "concurrently": "^4.1.1",
+    "cross-env": "^5.2.0",
+    "electron": "^5.0.6",
+    "electron-builder": "^20.44.4",
+    "electron-reload": "^1.4.0",
+    "nodemon": "^1.19.1",
+    "tsc-watch": "^2.4.0",
+    "wait-on": "^3.2.0",
+    "watch": "^1.0.2"
   }
 }

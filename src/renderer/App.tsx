@@ -41,6 +41,7 @@ export default class Vis2 extends React.Component {
     return (
       <VisGraph
         config={config}
+        // @ts-ignore
         model={model}
         storedGraphData={this.storedGraphData}
         updateStoredGraphData={this.updateStoredGraphData}

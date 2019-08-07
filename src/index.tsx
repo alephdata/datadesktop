@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import App from './renderer/App';
+import * as serviceWorker from './renderer/serviceWorker';
+
+declare global {
+    interface Window {
+      require: any;
+    }
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

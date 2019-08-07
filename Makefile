@@ -1,15 +1,16 @@
 MAKEFLAGS += -j2
 
-all: build
-
 install:
 	npm install && npm link @alephdata/vislib
 
 clean:
-	rm -rf node_modules
+	rm -rf node_modules dist build
 
 dev:
-	npm start
+	npm run start-renderer-dev & npm run start-app-dev
 
 build:
 	npm run build
+
+release:
+	npm run release
