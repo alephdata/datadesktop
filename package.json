@@ -38,7 +38,7 @@
     "react-test": "react-scripts test --env=jsdom",
     "react-eject": "react-scripts eject",
     "start-renderer-dev": "cross-env BROWSER=none npm run react-start",
-    "start-app-dev": "tsc-watch ./src/main/electron.ts --outDir ./dist --onSuccess \"electron ./dist/electron.js\" --onFailure \"echo Compilation Failed\" --compiler typescript/bin/tsc",
+    "start-app-dev": "tsc-watch ./src/main/electron.ts --outDir ./build --onSuccess \"electron ./build/electron.js\" --onFailure \"echo Compilation Failed\" --compiler typescript/bin/tsc",
     "electron-build": "tsc ./src/main/electron.ts --outDir ./build && electron-builder",
     "electron-dist": "electron-builder -mwl -p always",
     "build": "npm run react-build && npm run electron-build",
