@@ -12,7 +12,7 @@
     "url": "https://github.com/alephdata/visdesktop/issues"
   },
   "homepage": "./",
-  "main": "src/main/electron.js",
+  "main": "build/electron.js",
   "build": {
     "appId": "com.example.visDesktop",
     "productName": "VIS Desktop",
@@ -39,7 +39,7 @@
     "react-eject": "react-scripts eject",
     "start-renderer-dev": "cross-env BROWSER=none npm run react-start",
     "start-app-dev": "tsc-watch ./src/main/electron.ts --outDir ./dist --onSuccess \"electron ./dist/electron.js\" --onFailure \"echo Compilation Failed\" --compiler typescript/bin/tsc",
-    "electron-build": "electron-builder",
+    "electron-build": "tsc ./src/main/electron.ts --outDir ./build && electron-builder",
     "electron-dist": "electron-builder -mwl -p always",
     "build": "npm run react-build && npm run electron-build",
     "release": "npm run react-build && npm run electron-dist"
