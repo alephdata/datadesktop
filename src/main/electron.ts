@@ -51,12 +51,9 @@ class App {
   sendSaveFile(saveAs?:boolean) {
     console.log('saving', this.activeWindow)
     this.windows[this.activeWindow].sendSaveFile()
-
-    // const onSuccess = (path: string) => this.mainWindow.setTitleFromPath(path)
-    // saveFile(this.mainWindow.win, saveAs, onSuccess)
   }
 
-  receiveSaveFile(event, contents) {
+  receiveSaveFile(event: any, contents: any) {
     this.windows[this.activeWindow].receiveSaveFile(contents)
   }
 

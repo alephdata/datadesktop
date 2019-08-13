@@ -10,7 +10,7 @@ import { CustomMenu } from './CustomMenu'
 export class Window {
   id: number
   win: BrowserWindow
-  filePath: string
+  filePath: string | undefined
   onFocus: any
 
   constructor(props: any) {
@@ -56,7 +56,7 @@ export class Window {
     this.sendMessage('SAVE_FILE')
   }
 
-  receiveSaveFile(contents) {
+  receiveSaveFile(contents: any) {
     console.log('in window receiving save file')
     if (this.filePath) {
       this.writeFile(this.filePath, contents)
@@ -66,12 +66,13 @@ export class Window {
       //     const withExtension: string = addFileExtension(filePath)
       //     this.writeFile(withExtension, contents)
       //     this.filePath = filePath
+            // this.setTitleFromPath(filePath)
       //   }
       // })
     }
   }
 
-  writeFile(filePath,  contents) {
+  writeFile(filePath: string,  contents: any) {
     fs.writeFile(filePath, contents, (err) => {
       if (err) {
         console.log(err);
