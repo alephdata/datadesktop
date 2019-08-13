@@ -1,12 +1,25 @@
-import { BrowserWindow, app, dialog }  from 'electron'
+import { BrowserWindow, OpenDialogOptions, app, dialog }  from 'electron'
 import * as fs from 'fs'
-// import storage  from 'electron-json-storage';
-import {OPEN_FILE_SUCCESS}  from '../actionTypes'
+const Store = require('electron-store');
+import { lsFileKey, lsDataKey } from '../constants'
 
+export const openFile = (win: BrowserWindow, onSuccess?: any) => {
+  dialog.showOpenDialog(win as OpenDialogOptions).then(({filePaths}) => {
+    if (filePaths && filePaths.length > 0) {
+      fs.readFile(filePaths[0], 'utf-8', (err, data) => {
+          if(err){
+              console.log("An error ocurred reading the file :" + err.message);
+              return;
+          }
 
-export const openFile = () => {
-  // storage.get(key, (error, data) => {
-  //   if (error) throw error;
-  //   win.webContents.send(OPEN_FILE_SUCCESS, data)
-  // })
+          const storage = new Store();
+          const lsCurrFile = storage.set(lsFileKey, filePaths[0]);
+          const lsCurrData = storage.set(lsDataKey, data);
+
+          if (onSuccess) {
+            onSuccess(filePaths[0], data)
+          }
+      });
+    }
+  });
 }

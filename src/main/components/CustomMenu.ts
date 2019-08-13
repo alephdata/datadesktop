@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu } from 'electron'
-import { openFile } from '../actions'
+// import { newFile, openFile, saveFile } from '../actions'
 
-export const CustomMenu = (win: BrowserWindow) => {
+export const CustomMenu = (saveFile: any, newFile: any, openFile: any) => {
     return Menu.buildFromTemplate([
         {
             label: app.getName(),
@@ -23,11 +23,33 @@ export const CustomMenu = (win: BrowserWindow) => {
             label: 'File',
             submenu: [
               {
+                label: 'New',
+                accelerator: 'cmd+N',
+                click: () => {
+                  console.log('creating new')
+                  newFile()
+                }
+              },
+              {
+                label: 'Save',
+                accelerator: 'cmd+S',
+                click: () => {
+                  saveFile(false)
+                }
+              },
+              {
+                label: 'Save as...',
+                accelerator: 'Shift+cmd+S',
+                click: () => {
+                  saveFile(true)
+                }
+              },
+              {
                 label: 'Open',
                 accelerator: 'cmd+O',
                 click: () => {
                   console.log('opening')
-                  // openFile()
+                  openFile()
                 }
               }
             ]
