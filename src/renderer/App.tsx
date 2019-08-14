@@ -1,6 +1,6 @@
 import React from 'react'
 import { FocusStyleManager } from '@blueprintjs/core';
-import { VisGraph, GraphConfig } from '@alephdata/vislib';
+import { VisGraph, GraphConfig, GraphLayout, Viewport } from '@alephdata/vislib';
 import { defaultModel, Model} from '@alephdata/followthemoney'
 
 import '@blueprintjs/core/lib/css/blueprint.css';
@@ -17,53 +17,73 @@ const model = new Model(defaultModel)
 const config = new GraphConfig()
 // const demoKey = 'LS_v1'
 
-export default class Vis2 extends React.Component {
+interface IAppState {
+  layout: GraphLayout,
+  viewport: Viewport
+}
+
+export default class Vis2 extends React.Component <{}, IAppState> {
   saveTimeout: any
-  storedGraphData: any
 
   constructor(props: any) {
     super(props)
-    // const localStorageContents = localStorage.getItem(demoKey);
-
-    console.log('in react contructor')
-    // if (localStorageContents) {
-      // this.storedGraphData = JSON.parse(localStorageContents)
-    // }
-
     this.attachListeners()
 
-    this.updateStoredGraphData = this.updateStoredGraphData.bind(this);
+    this.updateLayout = this.updateLayout.bind(this);
+    this.updateViewport = this.updateViewport.bind(this);
     this.saveFile = this.saveFile.bind(this);
+    this.openFile = this.openFile.bind(this);
+    this.state = {
+      // @ts-ignore
+      layout: new GraphLayout(config, model),
+      viewport: new Viewport(config)
+    }
   }
 
   attachListeners() {
-    console.log(this)
-    // @ts-ignore
     ipcRenderer.on('SAVE_FILE', () => this.saveFile())
+    ipcRenderer.on('OPEN_FILE', (event: any, data: any) => this.openFile(data))
   }
 
   saveFile() {
-    console.log('in save file', this.storedGraphData)
-    ipcRenderer.send('SAVE_FILE_SUCCESS', this.storedGraphData)
+    console.log('in save file', this.state.layout)
+    const { layout, viewport } = this.state
+    const graphData = JSON.stringify({
+      layout: layout.toJSON(),
+      viewport: viewport.toJSON()
+    })
+    ipcRenderer.send('SAVE_FILE_SUCCESS', graphData)
   }
 
-  updateStoredGraphData(storedGraphData: any) {
-    this.storedGraphData = storedGraphData;
+  openFile(data: any) {
+    const { layout, viewport } = JSON.parse(data)
+    console.log('in OPENING file', data)
+    this.setState({
+      // @ts-ignore
+      layout: GraphLayout.fromJSON(config, model, layout),
+      viewport: Viewport.fromJSON(config, viewport),
+    })
+  }
 
-    // clearTimeout(this.saveTimeout)
-    // this.saveTimeout = setTimeout(() => {
-    //   localStorage.setItem(demoKey, storedGraphData)
-    // }, 1000)
+  updateLayout(layout: GraphLayout) {
+    this.setState({'layout': layout})
+  }
+
+  updateViewport(viewport: Viewport) {
+    this.setState({'viewport': viewport})
   }
 
   render() {
+    const { layout, viewport } = this.state
     return (
       <VisGraph
         config={config}
         // @ts-ignore
         model={model}
-        storedGraphData={this.storedGraphData}
-        updateStoredGraphData={this.updateStoredGraphData}
+        layout={layout}
+        viewport={viewport}
+        updateLayout={this.updateLayout}
+        updateViewport={this.updateViewport}
       />
     )
   }

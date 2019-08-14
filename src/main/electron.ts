@@ -1,9 +1,11 @@
-import { BrowserWindow , app , ipcMain, IpcMessageEvent, Menu } from 'electron' ;
+import { BrowserWindow , app , ipcMain, IpcMessageEvent, Menu, dialog } from 'electron' ;
 import * as isDev from "electron-is-dev" ;
 import * as path from 'path'
 import { autoUpdater } from 'electron-updater'
 import { Window, CustomMenu } from './components'
 import attachUpdateListeners from './attachUpdateListeners'
+import * as fs from 'fs'
+
 
 import { saveFile, openFile, newFile } from './actions'
 
@@ -60,21 +62,24 @@ class App {
   newFile() {
     const newWindow = new Window({id: this.windows.length, onFocus:this.onWindowFocus})
     this.windows.push(newWindow)
-    newWindow.sendMessage('NEW_FILE_CREATED')
-    // saveFile(this.mainWindow.win, false)
-    // newFile()
-    // this.mainWindow.destroy()
-    // this.mainWindow = new Window()
+    return newWindow
   }
 
   openFile() {
-
-    // saveFile(this.mainWindow.win, false)
-    // const onSuccess = (filePath: string, data: any) => {
-    //   this.mainWindow.destroy()
-    //   this.mainWindow = new Window()
-    // }
-    // openFile(this.mainWindow.win, onSuccess)
+    dialog.showOpenDialog({}).then(({filePaths}) => {
+      if (filePaths && filePaths.length > 0) {
+        filePaths.forEach(filePath => {
+          fs.readFile(filePath, 'utf-8', (err, data) => {
+            if (err){
+                console.log("An error ocurred reading the file :" + err.message);
+                return;
+            }
+            const newWindow = this.newFile()
+            newWindow.sendOpenFile(data)
+          });
+        })
+      }
+    });
 
   }
 }

@@ -61,24 +61,30 @@ export class Window {
     if (this.filePath) {
       this.writeFile(this.filePath, contents)
     } else {
-      // dialog.showSaveDialog((this.win, {defaultPath: ''}) as SaveDialogOptions).then(({filePath, canceled}) => {
-      //   if (!canceled && filePath) {
-      //     const withExtension: string = addFileExtension(filePath)
-      //     this.writeFile(withExtension, contents)
-      //     this.filePath = filePath
-            // this.setTitleFromPath(filePath)
-      //   }
-      // })
+      dialog.showSaveDialog((this.win, {defaultPath: ''}) as SaveDialogOptions).then(({filePath, canceled}) => {
+        if (!canceled && filePath) {
+          const withExtension: string = addFileExtension(filePath)
+          this.writeFile(withExtension, contents)
+          this.filePath = withExtension
+          this.setTitleFromPath(withExtension)
+        }
+      })
     }
   }
 
-  writeFile(filePath: string,  contents: any) {
+  writeFile(filePath: string, contents: any) {
     fs.writeFile(filePath, contents, (err) => {
       if (err) {
         console.log(err);
         return;
       }
     });
+  }
+
+  sendOpenFile(data: any) {
+    console.log('in window opening', this.win)
+    this.win.webContents.on('did-finish-load', () => this.sendMessage('OPEN_FILE', data))
+
   }
 
   setTitleFromPath(filePath: string) {
