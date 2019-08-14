@@ -1,16 +1,11 @@
 import { BrowserWindow , app , ipcMain, IpcMessageEvent, Menu, dialog } from 'electron' ;
 import * as isDev from "electron-is-dev" ;
-import * as path from 'path'
 import { autoUpdater } from 'electron-updater'
 import { Window, CustomMenu } from './components'
 import attachUpdateListeners from './attachUpdateListeners'
 import * as fs from 'fs'
 
-
-import { saveFile, openFile, newFile } from './actions'
-
 app.on('ready', function() {
-  // sendMessage();
   new App()
 });
 
@@ -42,31 +37,36 @@ class App {
   }
 
   attachListeners() {
-     ipcMain.on('SAVE_FILE_SUCCESS', this.receiveSaveFile.bind(this))
+    ipcMain.on('SAVE_FILE_SUCCESS', this.receiveSaveFile.bind(this))
+    ipcMain.on('GRAPH_CHANGED', this.onGraphChanged.bind(this))
   }
 
   onWindowFocus(id: number) {
-    console.log('changing active window', id)
     this.activeWindow = id
   }
 
   sendSaveFile(saveAs?:boolean) {
-    console.log('saving', this.activeWindow)
-    this.windows[this.activeWindow].sendSaveFile()
+    this.windows[this.activeWindow].sendSaveFile(saveAs)
   }
 
   receiveSaveFile(event: any, contents: any) {
     this.windows[this.activeWindow].receiveSaveFile(contents)
   }
 
+  onGraphChanged() {
+    this.windows[this.activeWindow].onGraphChanged()
+  }
+
   newFile() {
-    const newWindow = new Window({id: this.windows.length, onFocus:this.onWindowFocus})
+    const newId = this.windows.length
+    const newWindow = new Window({id: newId, onFocus:this.onWindowFocus})
     this.windows.push(newWindow)
+    this.activeWindow = newId
     return newWindow
   }
 
   openFile() {
-    dialog.showOpenDialog({}).then(({filePaths}) => {
+    dialog.showOpenDialog({filters:[{name: '*',extensions:['vis']}]}).then(({filePaths}) => {
       if (filePaths && filePaths.length > 0) {
         filePaths.forEach(filePath => {
           fs.readFile(filePath, 'utf-8', (err, data) => {
@@ -75,11 +75,10 @@ class App {
                 return;
             }
             const newWindow = this.newFile()
-            newWindow.sendOpenFile(data)
+            newWindow.sendOpenFile(filePath, data)
           });
         })
       }
     });
-
   }
 }

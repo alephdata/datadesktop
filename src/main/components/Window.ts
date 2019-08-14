@@ -11,13 +11,14 @@ export class Window {
   id: number
   win: BrowserWindow
   filePath: string | undefined
+  hasUnsavedChanges: boolean
   onFocus: any
 
   constructor(props: any) {
     const {id, onFocus} = props
     const win = new BrowserWindow({
-      width: 800,
-      height: 600,
+      width: 1000,
+      height: 800,
       show: false,
       webPreferences: {nodeIntegration: true},
     });
@@ -32,15 +33,9 @@ export class Window {
       win.webContents.openDevTools()
     }
 
-    // const storage = new Store();
-    // const currFileName = storage.get(lsFileKey) as string;
-    // if (currFileName) {
-    //   win.webContents.on("did-finish-load", () => {
-    //     this.setTitleFromPath(currFileName)
-    //   });
-    // }
     this.win = win
     this.id = id
+    this.hasUnsavedChanges = false
     this.onFocus = onFocus
     this.attachListeners()
   }
@@ -48,25 +43,23 @@ export class Window {
   attachListeners() {
     this.win.on('closed', () => this.win.destroy())
     this.win.on('focus', () => this.onFocus(this.id))
-    this.win.once('ready-to-show', () => this.win.show())
+    this.win.once('ready-to-show', () => this.onReady())
   }
 
-  sendSaveFile() {
-    console.log('in window saving')
-    this.sendMessage('SAVE_FILE')
+  sendSaveFile(saveAs?:boolean) {
+    console.log('in window saving', saveAs)
+    this.sendMessage('SAVE_FILE', saveAs)
   }
 
-  receiveSaveFile(contents: any) {
-    console.log('in window receiving save file')
-    if (this.filePath) {
-      this.writeFile(this.filePath, contents)
+  receiveSaveFile(props: any) {
+    const {graphData, saveAs} = props
+    if (!saveAs && this.filePath) {
+      this.writeFile(this.filePath, graphData)
     } else {
       dialog.showSaveDialog((this.win, {defaultPath: ''}) as SaveDialogOptions).then(({filePath, canceled}) => {
         if (!canceled && filePath) {
           const withExtension: string = addFileExtension(filePath)
-          this.writeFile(withExtension, contents)
-          this.filePath = withExtension
-          this.setTitleFromPath(withExtension)
+          this.writeFile(withExtension, graphData)
         }
       })
     }
@@ -78,21 +71,40 @@ export class Window {
         console.log(err);
         return;
       }
+      this.filePath = filePath
+      this.hasUnsavedChanges = false
+      this.setTitle()
     });
   }
 
-  sendOpenFile(data: any) {
-    console.log('in window opening', this.win)
-    this.win.webContents.on('did-finish-load', () => this.sendMessage('OPEN_FILE', data))
-
+  sendOpenFile(filePath: string, data: any) {
+    this.win.webContents.on('did-finish-load', () => {
+      this.filePath = filePath
+      this.hasUnsavedChanges = false
+      this.setTitle()
+      this.sendMessage('OPEN_FILE', data)
+    })
   }
 
-  setTitleFromPath(filePath: string) {
-    this.win.setTitle(path.basename(filePath))
+  setTitle() {
+    const base = this.filePath ? path.basename(this.filePath) : 'Untitled'
+    const title = this.hasUnsavedChanges ? `${base}*` : base
+    this.win.setTitle(title)
   }
 
   sendMessage(type: string, ...contents:any[]) {
     this.win.webContents.send(type, ...contents);
+  }
+
+  onGraphChanged() {
+    console.log('graph changed')
+    this.hasUnsavedChanges = true
+    this.setTitle()
+  }
+
+  onReady() {
+    this.setTitle()
+    this.win.show()
   }
 
   destroy() {

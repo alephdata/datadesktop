@@ -41,18 +41,18 @@ export default class Vis2 extends React.Component <{}, IAppState> {
   }
 
   attachListeners() {
-    ipcRenderer.on('SAVE_FILE', () => this.saveFile())
+    ipcRenderer.on('SAVE_FILE', (event: any, saveAs: boolean) => this.saveFile(saveAs))
     ipcRenderer.on('OPEN_FILE', (event: any, data: any) => this.openFile(data))
   }
 
-  saveFile() {
+  saveFile(saveAs: boolean) {
     console.log('in save file', this.state.layout)
     const { layout, viewport } = this.state
     const graphData = JSON.stringify({
       layout: layout.toJSON(),
       viewport: viewport.toJSON()
     })
-    ipcRenderer.send('SAVE_FILE_SUCCESS', graphData)
+    ipcRenderer.send('SAVE_FILE_SUCCESS', {graphData, saveAs})
   }
 
   openFile(data: any) {
@@ -65,8 +65,12 @@ export default class Vis2 extends React.Component <{}, IAppState> {
     })
   }
 
-  updateLayout(layout: GraphLayout) {
+  updateLayout(layout: GraphLayout, historyModified: boolean = false) {
     this.setState({'layout': layout})
+
+    if (historyModified) {
+      ipcRenderer.send('GRAPH_CHANGED')
+    }
   }
 
   updateViewport(viewport: Viewport) {
