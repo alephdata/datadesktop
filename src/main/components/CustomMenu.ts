@@ -1,22 +1,17 @@
 import { app, BrowserWindow, Menu } from 'electron'
-// import { newFile, openFile, saveFile } from '../actions'
 
 export const CustomMenu = (sendSaveFile: any, newFile: any, openFile: any) => {
     return Menu.buildFromTemplate([
         {
             label: app.getName(),
             submenu: [
-                { label: `Hello`, click: () => console.log("Hello world") }
-            ]
-        },
-        {
-            label: 'Edit',
-            submenu: [
-                {label: 'Undo', role: 'undo'  },
-                {label: 'Redo', role: 'redo'  },
-                {label: 'Cut', role: 'cut'  },
-                {label: 'Copy', role: 'copy'  },
-                {label: 'Paste', role:'paste'  },
+              { role: 'about' },
+              { type: 'separator' },
+              { role: 'services' },
+              { type: 'separator' },
+              { role: 'hide' },
+              { role: 'unhide' },
+              { role: 'quit' }
             ]
         },
         {
@@ -53,7 +48,30 @@ export const CustomMenu = (sendSaveFile: any, newFile: any, openFile: any) => {
                 }
               }
             ]
-        }
-
+        },
+        {
+            label: 'Edit',
+            submenu: [
+                // {label: 'Undo', role: 'undo'  },
+                // {label: 'Redo', role: 'redo'  },
+                // {label: 'Cut', role: 'cut'  },
+                // {label: 'Copy', role: 'copy'  },
+                // {label: 'Paste', role:'paste'  },
+                // { role: 'delete' },
+                // { type: 'separator' },
+                // { role: 'selectAll' }
+            ]
+        },
+        {
+          label: 'Window',
+          submenu: [
+            { role: 'minimize' },
+            { role: 'zoom' },
+            { type: 'separator' },
+            { role: 'front' },
+            { type: 'separator' },
+            { role: 'window' }
+          ]
+        },
     ])
 }

@@ -29,15 +29,27 @@ export default class Vis2 extends React.Component <{}, IAppState> {
     super(props)
     this.attachListeners()
 
+    const storedGraphData = localStorage.getItem('storedGraphData')
+
+    if (storedGraphData) {
+      const parsed = JSON.parse(storedGraphData)
+      this.state = {
+        // @ts-ignore
+        layout: GraphLayout.fromJSON(config, model, parsed.layout),
+        viewport: Viewport.fromJSON(config, parsed.viewport),
+      }
+    } else {
+      this.state = {
+        // @ts-ignore
+        layout: new GraphLayout(config, model),
+        viewport: new Viewport(config)
+      }
+    }
+
     this.updateLayout = this.updateLayout.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
     this.saveFile = this.saveFile.bind(this);
     this.openFile = this.openFile.bind(this);
-    this.state = {
-      // @ts-ignore
-      layout: new GraphLayout(config, model),
-      viewport: new Viewport(config)
-    }
   }
 
   attachListeners() {
@@ -75,6 +87,14 @@ export default class Vis2 extends React.Component <{}, IAppState> {
 
   updateViewport(viewport: Viewport) {
     this.setState({'viewport': viewport})
+  }
+
+  componentWillUnmount() {
+    const graphData = JSON.stringify({
+      layout: this.state.layout.toJSON(),
+      viewport: this.state.viewport.toJSON()
+    })
+    localStorage.setItem('storedGraphData', graphData)
   }
 
   render() {
