@@ -39,6 +39,7 @@ class App {
   attachListeners() {
     ipcMain.on('SAVE_FILE_SUCCESS', this.receiveSaveFile.bind(this))
     ipcMain.on('GRAPH_CHANGED', this.onGraphChanged.bind(this))
+    ipcMain.on('EXPORT_SVG', this.exportSvg.bind(this))
   }
 
   onWindowFocus(id: number) {
@@ -55,6 +56,10 @@ class App {
 
   onGraphChanged() {
     this.windows[this.activeWindow].onGraphChanged()
+  }
+
+  exportSvg(event: any, data: any) {
+    this.windows[this.activeWindow].exportSvg(data)
   }
 
   newFile() {

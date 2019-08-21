@@ -1,11 +1,10 @@
 import * as path from 'path'
 
-export const addFileExtension = (filePath: string) => {
-  const extension = path.extname(filePath)
-  if (extension === '') {
-    return filePath + '.vis'
+export const addFileExtension = (filePath: string, extension: string) => {
+  const currExtension = path.extname(filePath)
+  if (currExtension === '') {
+    return filePath + extension
   } else {
-    return extension === '.vis' ? filePath : filePath.replace(extension, '.vis')
+    return currExtension === extension ? filePath : filePath.replace(currExtension, extension)
   }
-
 }

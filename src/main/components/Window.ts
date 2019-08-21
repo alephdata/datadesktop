@@ -47,7 +47,6 @@ export class Window {
   }
 
   sendSaveFile(saveAs?:boolean) {
-    console.log('in window saving', saveAs)
     this.sendMessage('SAVE_FILE', saveAs)
   }
 
@@ -58,7 +57,7 @@ export class Window {
     } else {
       dialog.showSaveDialog((this.win, {defaultPath: ''}) as SaveDialogOptions).then(({filePath, canceled}) => {
         if (!canceled && filePath) {
-          const withExtension: string = addFileExtension(filePath)
+          const withExtension: string = addFileExtension(filePath, '.vis')
           this.writeFile(withExtension, graphData)
         }
       })
@@ -86,6 +85,20 @@ export class Window {
     })
   }
 
+  exportSvg(data: any) {
+    dialog.showSaveDialog((this.win, {defaultPath: ''}) as SaveDialogOptions).then(({filePath, canceled}) => {
+      if (!canceled && filePath) {
+        const withExtension: string = addFileExtension(filePath, '.svg')
+        fs.writeFile(withExtension, data, (err) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+        });
+      }
+    })
+  }
+
   setTitle() {
     const base = this.filePath ? path.basename(this.filePath) : 'Untitled'
     const title = this.hasUnsavedChanges ? `${base}*` : base
@@ -97,7 +110,6 @@ export class Window {
   }
 
   onGraphChanged() {
-    console.log('graph changed')
     this.hasUnsavedChanges = true
     this.setTitle()
   }
