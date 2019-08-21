@@ -50,6 +50,7 @@ export default class Vis2 extends React.Component <{}, IAppState> {
     this.updateViewport = this.updateViewport.bind(this);
     this.saveFile = this.saveFile.bind(this);
     this.openFile = this.openFile.bind(this);
+    this.exportSvg = this.exportSvg.bind(this);
   }
 
   attachListeners() {
@@ -58,7 +59,6 @@ export default class Vis2 extends React.Component <{}, IAppState> {
   }
 
   saveFile(saveAs: boolean) {
-    console.log('in save file', this.state.layout)
     const { layout, viewport } = this.state
     const graphData = JSON.stringify({
       layout: layout.toJSON(),
@@ -69,12 +69,15 @@ export default class Vis2 extends React.Component <{}, IAppState> {
 
   openFile(data: any) {
     const { layout, viewport } = JSON.parse(data)
-    console.log('in OPENING file', data)
     this.setState({
       // @ts-ignore
       layout: GraphLayout.fromJSON(config, model, layout),
       viewport: Viewport.fromJSON(config, viewport),
     })
+  }
+
+  exportSvg(data: any) {
+    ipcRenderer.send('EXPORT_SVG', data)
   }
 
   updateLayout(layout: GraphLayout, historyModified: boolean = false) {
@@ -108,6 +111,7 @@ export default class Vis2 extends React.Component <{}, IAppState> {
         viewport={viewport}
         updateLayout={this.updateLayout}
         updateViewport={this.updateViewport}
+        exportSvg={this.exportSvg}
       />
     )
   }

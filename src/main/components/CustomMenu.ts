@@ -3,7 +3,7 @@ import { app, BrowserWindow, Menu } from 'electron'
 export const CustomMenu = (sendSaveFile: any, newFile: any, openFile: any) => {
     return Menu.buildFromTemplate([
         {
-            label: app.getName(),
+            label: 'VIS Desktop',
             submenu: [
               { role: 'about' },
               { type: 'separator' },
@@ -21,7 +21,6 @@ export const CustomMenu = (sendSaveFile: any, newFile: any, openFile: any) => {
                 label: 'New',
                 accelerator: 'cmd+N',
                 click: () => {
-                  console.log('creating new')
                   newFile()
                 }
               },
@@ -43,7 +42,6 @@ export const CustomMenu = (sendSaveFile: any, newFile: any, openFile: any) => {
                 label: 'Open',
                 accelerator: 'cmd+O',
                 click: () => {
-                  console.log('opening')
                   openFile()
                 }
               }
