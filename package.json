@@ -1,6 +1,6 @@
 {
   "name": "@alephdata/visdesktop",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "desktop application for vislib",
   "repository": {
     "type": "git",
@@ -19,14 +19,20 @@
     "publish": "github",
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "icon.*"
     ],
+    "mac": {
+      "icon": "./logo.png"
+    },
     "linux": {
       "target": "tar.gz",
-      "executableName": "VISDesktop"
+      "executableName": "VISDesktop",
+      "icon": "./logo.png"
     },
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "./logo.png"
     }
   },
   "dependencies": {

@@ -13,4 +13,5 @@ build:
 	npm run build
 
 release:
+	npm version patch
 	npm run release
