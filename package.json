@@ -1,6 +1,6 @@
 {
   "name": "@alephdata/visdesktop",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "desktop application for vislib",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
       "node_modules/**/*"
     ],
     "linux": {
-      "target":"tar.gz",
+      "target": "tar.gz",
       "executableName": "VISDesktop"
     },
     "win": {
