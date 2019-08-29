@@ -3,6 +3,9 @@ MAKEFLAGS += -j2
 install:
 	npm install && npm link @alephdata/vislib
 
+link:
+	npm link @alephdata/vislib
+
 clean:
 	rm -rf node_modules dist build
 

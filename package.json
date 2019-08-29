@@ -14,16 +14,21 @@
   "homepage": "./",
   "main": "build/electron.js",
   "build": {
-    "appId": "com.example.visDesktop",
+    "appId": "com.electron.visdesktop",
     "productName": "VIS Desktop",
     "publish": "github",
+    "afterSign": "scripts/notarize.js",
     "files": [
       "build/**/*",
       "node_modules/**/*",
       "icon.*"
     ],
     "mac": {
-      "icon": "./logo.png"
+      "icon": "./logo.png",
+      "hardenedRuntime" : true,
+      "gatekeeperAssess": false,
+      "entitlements": "./entitlements.mac.plist",
+      "entitlementsInherit": "./entitlements.mac.plist"
     },
     "linux": {
       "target": "tar.gz",
