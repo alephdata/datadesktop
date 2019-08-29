@@ -1,11 +1,14 @@
+// See: https://medium.com/@TwitterArchiveEraser/notarize-electron-apps-7a5f988406db
+
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 var electron_notarize = require('electron-notarize');
 
 module.exports = async function (params) {
+  console.log(params.electronPlatformName);
     // Only notarize the app on Mac OS only.
-    if (process.platform !== 'darwin') {
+    if (params.electronPlatformName !== 'mac' || process.platform !== 'darwin') {
         return;
     }
     console.log('afterSign hook triggered', params);
