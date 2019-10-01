@@ -8,21 +8,21 @@ import '@blueprintjs/select/lib/css/blueprint-select.css'
 import '@blueprintjs/datetime/lib/css/blueprint-datetime.css'
 import './App.css';
 
-const electron = window.require('electron');
-const ipcRenderer  = electron.ipcRenderer;
-
 FocusStyleManager.onlyShowFocusOnTabs();
 
 const model = new Model(defaultModel)
 const config = new GraphConfig()
-// const demoKey = 'LS_v1'
+
+interface IAppProps {
+  ipcRenderer: any
+}
 
 interface IAppState {
   layout: GraphLayout,
   viewport: Viewport
 }
 
-export default class Vis2 extends React.Component <{}, IAppState> {
+export default class Vis2 extends React.Component <IAppProps, IAppState> {
   saveTimeout: any
 
   constructor(props: any) {
@@ -54,16 +54,22 @@ export default class Vis2 extends React.Component <{}, IAppState> {
   }
 
   attachListeners() {
-    ipcRenderer.on('SAVE_FILE', (event: any, saveAs: boolean) => this.saveFile(saveAs))
-    ipcRenderer.on('OPEN_FILE', (event: any, data: any) => this.openFile(data))
+    const { ipcRenderer } = this.props;
+
+    if (ipcRenderer) {
+      ipcRenderer.on('SAVE_FILE', (event: any, saveAs: boolean) => this.saveFile(saveAs))
+      ipcRenderer.on('OPEN_FILE', (event: any, data: any) => this.openFile(data))
+    }
   }
 
   saveFile(saveAs: boolean) {
+    const { ipcRenderer } = this.props;
     const { layout, viewport } = this.state
     const graphData = JSON.stringify({
       layout: layout.toJSON(),
       viewport: viewport.toJSON()
     })
+
     ipcRenderer.send('SAVE_FILE_SUCCESS', {graphData, saveAs})
   }
 
@@ -77,22 +83,30 @@ export default class Vis2 extends React.Component <{}, IAppState> {
   }
 
   exportSvg(data: any) {
+    const { ipcRenderer } = this.props;
+
     ipcRenderer.send('EXPORT_SVG', data)
   }
 
   updateLayout(layout: GraphLayout, historyModified: boolean = false) {
+    const { ipcRenderer } = this.props;
+
     this.setState({'layout': layout})
 
     if (historyModified) {
-      ipcRenderer.send('GRAPH_CHANGED')
+      if (ipcRenderer) {
+        ipcRenderer.send('GRAPH_CHANGED')
+      }
+      this.saveToLocalStorage();
     }
   }
 
   updateViewport(viewport: Viewport) {
     this.setState({'viewport': viewport})
+    this.saveToLocalStorage();
   }
 
-  componentWillUnmount() {
+  saveToLocalStorage() {
     const graphData = JSON.stringify({
       layout: this.state.layout.toJSON(),
       viewport: this.state.viewport.toJSON()

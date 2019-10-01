@@ -9,6 +9,9 @@ clean:
 dev:
 	npm run start-renderer-dev & npm run start-app-dev
 
+dev-browser-only:
+	npm run start-renderer-dev-browser-only
+
 build:
 	npm run build
 
