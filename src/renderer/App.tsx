@@ -31,7 +31,7 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
 
     const storedGraphData = localStorage.getItem('storedGraphData')
 
-    if (storedGraphData) {
+    if (storedGraphData && !props.ipcRenderer) {
       const parsed = JSON.parse(storedGraphData)
       this.state = {
         // @ts-ignore
@@ -96,14 +96,18 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
     if (historyModified) {
       if (ipcRenderer) {
         ipcRenderer.send('GRAPH_CHANGED')
+      } else {
+        this.saveToLocalStorage();
       }
-      this.saveToLocalStorage();
     }
   }
 
   updateViewport(viewport: Viewport) {
+    const { ipcRenderer } = this.props;
     this.setState({'viewport': viewport})
-    this.saveToLocalStorage();
+    if (!ipcRenderer) {
+      this.saveToLocalStorage();
+    }
   }
 
   saveToLocalStorage() {
