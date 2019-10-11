@@ -1,6 +1,6 @@
 {
   "name": "@alephdata/visdesktop",
-  "version": "0.2.0",
+  "version": "0.1.2",
   "description": "desktop application for vislib",
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
     "appId": "com.electron.visdesktop",
     "productName": "VIS Desktop",
     "publish": "github",
+    "afterSign": "scripts/notarize.js",
     "fileAssociations": {
       "ext": "vis",
       "name": "VIS"
@@ -82,7 +83,7 @@
   },
   "devDependencies": {
     "@alephdata/followthemoney": "^1.21.3",
-    "@alephdata/vislib": "^2.0.0",
+    "@alephdata/vislib": "0.0.3",
     "@blueprintjs/core": "^3.15.1",
     "@blueprintjs/datetime": "^3.9.0",
     "@blueprintjs/select": "^3.8.0",
