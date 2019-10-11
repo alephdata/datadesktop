@@ -2,7 +2,6 @@ import { BrowserWindow , app , ipcMain, IpcMessageEvent, Menu, dialog } from 'el
 import * as isDev from "electron-is-dev" ;
 import { autoUpdater } from 'electron-updater'
 import { Window, CustomMenu } from './components'
-import attachUpdateListeners from './attachUpdateListeners'
 import * as fs from 'fs'
 
 app.on('ready', function() {
@@ -22,9 +21,10 @@ class App {
   constructor() {
     this.onWindowFocus = this.onWindowFocus.bind(this)
     const mainWindow = new Window({id: 0, onFocus: this.onWindowFocus})
-
+    const log = require("electron-log")
+    log.transports.file.level = "debug"
+    autoUpdater.logger = log
     autoUpdater.checkForUpdatesAndNotify();
-    attachUpdateListeners(mainWindow);
 
     Menu.setApplicationMenu(CustomMenu(
       this.sendSaveFile.bind(this), this.newFile.bind(this), this.openFile.bind(this)

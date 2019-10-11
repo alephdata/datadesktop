@@ -1,10 +1,10 @@
 {
   "name": "@alephdata/visdesktop",
-  "version": "0.0.0",
+  "version": "0.1.2",
   "description": "desktop application for vislib",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alephdata/vis2.js.git"
+    "url": "git+https://github.com/alephdata/visdesktop.git"
   },
   "author": "OCCRP Data <data@occrp.org>",
   "license": "MIT",
@@ -14,23 +14,44 @@
   "homepage": "./",
   "main": "build/electron.js",
   "build": {
-    "appId": "com.example.visDesktop",
+    "appId": "com.electron.visdesktop",
     "productName": "VIS Desktop",
+    "publish": "github",
+    "afterSign": "scripts/notarize.js",
+    "fileAssociations": {
+      "ext": "vis",
+      "name": "VIS"
+    },
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "icon.*"
     ],
+    "mac": {
+      "icon": "./logo.png",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "./entitlements.mac.plist",
+      "entitlementsInherit": "./entitlements.mac.plist"
+    },
+    "linux": {
+      "target": "tar.gz",
+      "executableName": "VISDesktop",
+      "icon": "./logo.png"
+    },
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "./logo.png"
     }
   },
   "dependencies": {
+    "electron-is-dev": "^1.1.0",
+    "electron-log": "^3.0.7",
+    "electron-updater": "^4.1.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "typescript": "3.5.2",
-    "electron-is-dev": "^1.1.0",
-    "electron-updater": "^4.1.2"
+    "typescript": "3.5.2"
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -41,7 +62,7 @@
     "start-renderer-dev-browser-only": "REACT_APP_ENV=browser_only npm run react-start",
     "start-app-dev": "tsc-watch ./src/main/electron.ts --outDir ./build --onSuccess \"electron ./build/electron.js\" --onFailure \"echo Compilation Failed\" --compiler typescript/bin/tsc",
     "electron-build": "tsc ./src/main/electron.ts --outDir ./build && electron-builder",
-    "electron-dist": "electron-builder -mwl -p always",
+    "electron-dist": "tsc ./src/main/electron.ts --outDir ./build && electron-builder -mwl -p always",
     "build": "npm run react-build && npm run electron-build",
     "release": "npm run react-build && npm run electron-dist"
   },
@@ -61,7 +82,7 @@
     ]
   },
   "devDependencies": {
-    "@alephdata/followthemoney": "^1.17.1",
+    "@alephdata/followthemoney": "^1.21.3",
     "@alephdata/vislib": "0.0.3",
     "@blueprintjs/core": "^3.15.1",
     "@blueprintjs/datetime": "^3.9.0",

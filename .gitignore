@@ -28,4 +28,5 @@ yarn-debug.log*
 yarn-error.log*
 
 *.p12
+*.plist
 .env

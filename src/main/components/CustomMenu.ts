@@ -52,12 +52,12 @@ export const CustomMenu = (sendSaveFile: any, newFile: any, openFile: any) => {
             submenu: [
                 // {label: 'Undo', role: 'undo'  },
                 // {label: 'Redo', role: 'redo'  },
-                // {label: 'Cut', role: 'cut'  },
-                // {label: 'Copy', role: 'copy'  },
-                // {label: 'Paste', role:'paste'  },
+                {label: 'Cut', accelerator: "CmdOrCtrl+X", role: 'cut'  },
+                {label: 'Copy', accelerator: "CmdOrCtrl+C", role: 'copy'  },
+                {label: 'Paste', accelerator: "CmdOrCtrl+V", role:'paste'  },
                 // { role: 'delete' },
-                // { type: 'separator' },
-                // { role: 'selectAll' }
+                { type: 'separator' },
+                { role: 'selectAll', accelerator: "CmdOrCtrl+A",  }
             ]
         },
         {

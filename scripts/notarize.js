@@ -6,12 +6,12 @@ const path = require('path');
 var electron_notarize = require('electron-notarize');
 
 module.exports = async function (params) {
+  console.log(params.electronPlatformName);
     // Only notarize the app on Mac OS only.
-    if (params.electronPlatformName !== 'darwin') {
+    if (params.electronPlatformName !== 'mac' || process.platform !== 'darwin') {
         return;
     }
-
-    console.log('afterSign hook triggered');
+    console.log('afterSign hook triggered', params);
 
     // Same appId in electron-builder.
     let appId = 'com.electron.visdesktop'
