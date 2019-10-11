@@ -4,8 +4,26 @@ import { autoUpdater } from 'electron-updater'
 import { Window, CustomMenu } from './components'
 import * as fs from 'fs'
 
+let appInstance: any;
+
 app.on('ready', function() {
-  new App()
+  appInstance = new App({})
+});
+
+app.on("open-file", function(event, path) {
+  event.preventDefault()
+  let fileToOpen = path
+
+  if (process.platform == 'win32' && process.argv.length >= 2) {
+    fileToOpen = process.argv[1];
+  }
+  if (appInstance && app.isReady()) {
+    appInstance.openFile(fileToOpen)
+  } else {
+    app.on('ready', function() {
+      appInstance.openFile(fileToOpen)
+    });
+  }
 });
 
 app.on('window-all-closed', () => {
@@ -18,16 +36,19 @@ class App {
   private windows: Window[]
   private activeWindow: number
 
-  constructor() {
+  constructor({ fileToOpen }: any) {
     this.onWindowFocus = this.onWindowFocus.bind(this)
     const mainWindow = new Window({id: 0, onFocus: this.onWindowFocus})
+    if (fileToOpen) {
+      this.openFile(fileToOpen)
+    }
     const log = require("electron-log")
     log.transports.file.level = "debug"
     autoUpdater.logger = log
     autoUpdater.checkForUpdatesAndNotify();
 
     Menu.setApplicationMenu(CustomMenu(
-      this.sendSaveFile.bind(this), this.newFile.bind(this), this.openFile.bind(this)
+      this.sendSaveFile.bind(this), this.newFile.bind(this), this.openFileDialog.bind(this)
     ))
 
     this.windows = [mainWindow]
@@ -70,20 +91,24 @@ class App {
     return newWindow
   }
 
-  openFile() {
+  openFileDialog() {
     dialog.showOpenDialog({filters:[{name: '*',extensions:['vis']}]}).then(({filePaths}) => {
       if (filePaths && filePaths.length > 0) {
         filePaths.forEach(filePath => {
-          fs.readFile(filePath, 'utf-8', (err, data) => {
-            if (err){
-                console.log("An error ocurred reading the file :" + err.message);
-                return;
-            }
-            const newWindow = this.newFile()
-            newWindow.sendOpenFile(filePath, data)
-          });
+          this.openFile(filePath)
         })
       }
+    });
+  }
+
+  openFile(filePath: string) {
+    fs.readFile(filePath, 'utf-8', (err, data) => {
+      if (err){
+          console.log("An error ocurred reading the file :" + err.message);
+          return;
+      }
+      const newWindow = this.newFile()
+      newWindow.sendOpenFile(filePath, data)
     });
   }
 }

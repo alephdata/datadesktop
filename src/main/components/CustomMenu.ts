@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Menu } from 'electron'
 
-export const CustomMenu = (sendSaveFile: any, newFile: any, openFile: any) => {
+export const CustomMenu = (sendSaveFile: any, newFile: any, openFileDialog: any) => {
     return Menu.buildFromTemplate([
         {
             label: 'VIS Desktop',
@@ -42,7 +42,7 @@ export const CustomMenu = (sendSaveFile: any, newFile: any, openFile: any) => {
                 label: 'Open',
                 accelerator: 'cmd+O',
                 click: () => {
-                  openFile()
+                  openFileDialog()
                 }
               }
             ]
