@@ -20,12 +20,12 @@ body {
  * this is a hack around this issue  https://github.com/palantir/blueprint/issues/3515
  * it enables users to interact with canvas while drawer is open
 */
-.bp3-overlay-container {
+/* .bp3-overlay-container {
   pointer-events: none;
 }
 .bp3-drawer {
   pointer-events: all;
-}
+} */
 
 .vertex--icon{
   pointer-events: none;
