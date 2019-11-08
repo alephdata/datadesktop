@@ -83,7 +83,7 @@
   },
   "devDependencies": {
     "@alephdata/followthemoney": "^1.21.3",
-    "@alephdata/vislib": "0.0.3",
+    "@alephdata/vislib": "1.2.1",
     "@types/electron": "^1.6.10",
     "@types/jest": "24.0.15",
     "@types/node": "12.0.10",
