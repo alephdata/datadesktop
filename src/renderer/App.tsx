@@ -1,15 +1,7 @@
 import React from 'react'
-import { FocusStyleManager } from '@blueprintjs/core';
 import { VisGraph, GraphConfig, GraphLayout, Viewport } from '@alephdata/vislib';
 import { defaultModel, Model} from '@alephdata/followthemoney'
 
-import '@blueprintjs/core/lib/css/blueprint.css';
-import '@blueprintjs/select/lib/css/blueprint-select.css'
-import '@blueprintjs/datetime/lib/css/blueprint-datetime.css'
-import '@blueprintjs/table/lib/css/table.css';
-import './App.css';
-
-FocusStyleManager.onlyShowFocusOnTabs();
 
 const model = new Model(defaultModel)
 const config = new GraphConfig()
