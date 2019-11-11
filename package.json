@@ -81,7 +81,6 @@
     ]
   },
   "devDependencies": {
-    "@alephdata/followthemoney": "^1.21.3",
     "@alephdata/vislib": "^2.0.0",
     "@blueprintjs/core": "^3.15.1",
     "@blueprintjs/datetime": "^3.9.0",
