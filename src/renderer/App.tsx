@@ -1,17 +1,6 @@
 import React from 'react'
-import { FocusStyleManager } from '@blueprintjs/core';
 import { VisGraph, GraphConfig, GraphLayout, Viewport } from '@alephdata/vislib';
-import { defaultModel, Model} from '@alephdata/followthemoney'
 
-import '@blueprintjs/core/lib/css/blueprint.css';
-import '@blueprintjs/select/lib/css/blueprint-select.css'
-import '@blueprintjs/datetime/lib/css/blueprint-datetime.css'
-import '@blueprintjs/table/lib/css/table.css';
-import './App.css';
-
-FocusStyleManager.onlyShowFocusOnTabs();
-
-const model = new Model(defaultModel)
 const config = new GraphConfig()
 
 interface IAppProps {
@@ -36,13 +25,13 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
       const parsed = JSON.parse(storedGraphData)
       this.state = {
         // @ts-ignore
-        layout: GraphLayout.fromJSON(config, model, parsed.layout),
+        layout: GraphLayout.fromJSON(config, parsed.layout),
         viewport: Viewport.fromJSON(config, parsed.viewport),
       }
     } else {
       this.state = {
         // @ts-ignore
-        layout: new GraphLayout(config, model),
+        layout: new GraphLayout(config),
         viewport: new Viewport(config)
       }
     }
@@ -78,7 +67,7 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
     const { layout, viewport } = JSON.parse(data)
     this.setState({
       // @ts-ignore
-      layout: GraphLayout.fromJSON(config, model, layout),
+      layout: GraphLayout.fromJSON(config, layout),
       viewport: Viewport.fromJSON(config, viewport),
     })
   }
@@ -124,8 +113,6 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
     return (
       <VisGraph
         config={config}
-        // @ts-ignore
-        model={model}
         layout={layout}
         viewport={viewport}
         updateLayout={this.updateLayout}
