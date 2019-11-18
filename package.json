@@ -32,11 +32,10 @@
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "./entitlements.mac.plist",
-      "entitlementsInherit": "./entitlements.mac.plist",
-      "title": "${productName}"
+      "entitlementsInherit": "./entitlements.mac.plist"
     },
     "linux": {
-      "target": "tar.gz",
+      "target": "deb",
       "executableName": "VISDesktop",
       "icon": "./logo.png"
     },
