@@ -123,7 +123,7 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
         updateLayout={this.updateLayout}
         updateViewport={this.updateViewport}
         exportSvg={this.exportSvg}
-        writeable={false}
+        writeable={true}
         logo={logo}
       />
     )
