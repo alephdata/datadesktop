@@ -1,7 +1,12 @@
 import React from 'react'
-import { VisGraph, GraphConfig, GraphLayout, Viewport } from '@alephdata/vislib';
+import {GraphConfig, GraphLayout, GraphLogo, Viewport, VisGraph } from '@alephdata/vislib';
+import logoBase64 from './static/logoBase64';
 
-const config = new GraphConfig()
+const config = new GraphConfig();
+const logo = new GraphLogo({
+  text: "VIS Desktop",
+  image: logoBase64,
+});
 
 interface IAppProps {
   ipcRenderer: any
@@ -118,6 +123,8 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
         updateLayout={this.updateLayout}
         updateViewport={this.updateViewport}
         exportSvg={this.exportSvg}
+        writeable={false}
+        logo={logo}
       />
     )
   }
