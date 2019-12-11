@@ -18,6 +18,7 @@
     "productName": "VIS Desktop",
     "publish": "github",
     "afterSign": "scripts/notarize.js",
+    "artifactName": "${productName}.${ext}",
     "fileAssociations": {
       "ext": "vis",
       "name": "VIS"
