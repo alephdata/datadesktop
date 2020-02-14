@@ -1,12 +1,14 @@
 import React from 'react'
-import {GraphConfig, GraphLayout, GraphLogo, Viewport, VisGraph } from '@alephdata/vislib';
+import { EntityManager, GraphConfig, GraphLayout, GraphLogo, Viewport, VisGraph } from '@alephdata/vislib';
 import logoBase64 from './static/logoBase64';
 
-const config = new GraphConfig();
 const logo = new GraphLogo({
   text: "VIS Desktop",
   image: logoBase64,
 });
+
+const config = new GraphConfig({ editorTheme: "dark", toolbarPosition: 'top', logo });
+const entityManager = new EntityManager();
 
 interface IAppProps {
   ipcRenderer: any
@@ -30,13 +32,13 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
       const parsed = JSON.parse(storedGraphData)
       this.state = {
         // @ts-ignore
-        layout: GraphLayout.fromJSON(config, parsed.layout),
+        layout: GraphLayout.fromJSON(config, entityManager, parsed.layout),
         viewport: Viewport.fromJSON(config, parsed.viewport),
       }
     } else {
       this.state = {
         // @ts-ignore
-        layout: new GraphLayout(config),
+        layout: new GraphLayout(config, entityManager),
         viewport: new Viewport(config)
       }
     }
@@ -92,7 +94,7 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
       if (ipcRenderer) {
         ipcRenderer.send('GRAPH_CHANGED')
       } else {
-        this.saveToLocalStorage();
+        this.saveToLocalStorage({ layout });
       }
     }
   }
@@ -101,14 +103,14 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
     const { ipcRenderer } = this.props;
     this.setState({'viewport': viewport})
     if (!ipcRenderer) {
-      this.saveToLocalStorage();
+      this.saveToLocalStorage({ viewport });
     }
   }
 
-  saveToLocalStorage() {
+  saveToLocalStorage({ layout, viewport }: { layout?: GraphLayout, viewport?: Viewport }) {
     const graphData = JSON.stringify({
-      layout: this.state.layout.toJSON(),
-      viewport: this.state.viewport.toJSON()
+      layout: layout ? layout.toJSON() : this.state.layout.toJSON(),
+      viewport: viewport ? viewport.toJSON() : this.state.viewport.toJSON()
     })
     localStorage.setItem('storedGraphData', graphData)
   }
@@ -118,13 +120,13 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
     return (
       <VisGraph
         config={config}
+        entityManager={entityManager}
         layout={layout}
         viewport={viewport}
         updateLayout={this.updateLayout}
         updateViewport={this.updateViewport}
         exportSvg={this.exportSvg}
-        writeable={true}
-        logo={logo}
+        writeable
       />
     )
   }
