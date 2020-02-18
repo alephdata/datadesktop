@@ -16,6 +16,7 @@ interface IAppProps {
 
 interface IAppState {
   layout: GraphLayout,
+  locale?: string,
   viewport: Viewport
 }
 
@@ -56,6 +57,7 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
     if (ipcRenderer) {
       ipcRenderer.on('SAVE_FILE', (event: any, saveAs: boolean) => this.saveFile(saveAs))
       ipcRenderer.on('OPEN_FILE', (event: any, data: any) => this.openFile(data))
+      ipcRenderer.on('SET_LOCALE', (event: any, locale: any) => this.setLocale(locale))
     }
   }
 
@@ -77,6 +79,10 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
       layout: GraphLayout.fromJSON(config, layout),
       viewport: Viewport.fromJSON(config, viewport),
     })
+  }
+
+  setLocale(locale: string) {
+    this.setState({ locale });
   }
 
   exportSvg(data: any) {
@@ -116,7 +122,8 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
   }
 
   render() {
-    const { layout, viewport } = this.state
+    const { layout, locale, viewport } = this.state;
+
     return (
       <VisGraph
         config={config}
@@ -126,6 +133,7 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
         updateLayout={this.updateLayout}
         updateViewport={this.updateViewport}
         exportSvg={this.exportSvg}
+        locale={locale}
         writeable
       />
     )

@@ -1,4 +1,4 @@
-import { BrowserWindow, dialog, SaveDialogOptions } from 'electron'
+import { app, BrowserWindow, dialog, SaveDialogOptions } from 'electron'
 import * as path from 'path'
 import * as isDev from "electron-is-dev" ;
 import { addFileExtension } from '../utilities'
@@ -116,6 +116,9 @@ export class Window {
 
   onReady() {
     this.setTitle()
+    let locale = app.getLocale();
+    locale = (locale === "en_GB" || locale === "en_US") ? "en" : locale;
+    this.sendMessage('SET_LOCALE', locale);
     this.win.show()
   }
 
