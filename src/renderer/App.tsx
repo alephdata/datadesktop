@@ -74,9 +74,10 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
 
   openFile(data: any) {
     const { layout, viewport } = JSON.parse(data)
+
     this.setState({
       // @ts-ignore
-      layout: GraphLayout.fromJSON(config, layout),
+      layout: GraphLayout.fromJSON(config, entityManager, layout),
       viewport: Viewport.fromJSON(config, viewport),
     })
   }
