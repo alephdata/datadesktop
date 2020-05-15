@@ -1,6 +1,6 @@
 {
   "name": "@alephdata/visdesktop",
-  "version": "1.5.1",
+  "version": "1.8.0",
   "description": "desktop application for vislib",
   "repository": {
     "type": "git",
