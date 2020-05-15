@@ -83,9 +83,8 @@
     ]
   },
   "devDependencies": {
-    "@alephdata/vislib": "^1.5.1",
+    "@alephdata/vislib": "1.8.0",
     "@blueprintjs/core": "^3.20.0",
-    "@blueprintjs/datetime": "^3.15.0",
     "@blueprintjs/select": "^3.11.2",
     "@blueprintjs/table": "^3.8.2",
     "@types/electron": "^1.6.10",
