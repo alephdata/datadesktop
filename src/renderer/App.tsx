@@ -1,5 +1,5 @@
 import React from 'react'
-import { EntityManager, GraphConfig, GraphLayout, GraphLogo, Viewport, VisGraph } from '@alephdata/vislib';
+import { EntityManager, GraphConfig, GraphLayout, GraphLogo, Viewport, VisGraph } from '@alephdata/react-ftm';
 import logoBase64 from './static/logoBase64';
 
 const logo = new GraphLogo({

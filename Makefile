@@ -1,10 +1,10 @@
 MAKEFLAGS += -j2
 
 install:
-	npm install && npm link @alephdata/vislib
+	npm install && npm link @alephdata/react-ftm
 
 link:
-	npm link @alephdata/vislib
+	npm link @alephdata/react-ftm
 
 clean:
 	rm -rf node_modules dist build
