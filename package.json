@@ -1,21 +1,21 @@
 {
-  "name": "@alephdata/visdesktop",
+  "name": "@alephdata/datadesktop",
   "version": "1.9.1",
   "description": "desktop application for vislib",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alephdata/visdesktop.git"
+    "url": "git+https://github.com/alephdata/datadesktop.git"
   },
   "author": "OCCRP Data <data@occrp.org>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alephdata/visdesktop/issues"
+    "url": "https://github.com/alephdata/datadesktop/issues"
   },
   "homepage": "./",
   "main": "build/electron.js",
   "build": {
     "appId": "com.electron.visdesktop",
-    "productName": "VIS Desktop",
+    "productName": "Aleph Data Desktop",
     "publish": "github",
     "afterSign": "scripts/notarize.js",
     "artifactName": "${productName}.${ext}",
@@ -37,7 +37,7 @@
     },
     "linux": {
       "target": "deb",
-      "executableName": "VISDesktop",
+      "executableName": "AlephDataDesktop",
       "icon": "./logo.png"
     },
     "win": {

@@ -3,7 +3,7 @@ import { app, BrowserWindow, Menu } from 'electron'
 export const CustomMenu = (sendSaveFile: any, newFile: any, openFileDialog: any) => {
     return Menu.buildFromTemplate([
         {
-            label: 'VIS Desktop',
+            label: 'Aleph Data Desktop',
             submenu: [
               { role: 'about' },
               { type: 'separator' },
