@@ -3,7 +3,7 @@ import { EntityManager, GraphConfig, GraphLayout, GraphLogo, Viewport, VisGraph 
 import logoBase64 from './static/logoBase64';
 
 const logo = new GraphLogo({
-  text: "Aleph Diagrams",
+  text: "Data Desktop",
   image: logoBase64,
 });
 
