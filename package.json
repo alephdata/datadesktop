@@ -84,7 +84,7 @@
     ]
   },
   "devDependencies": {
-    "@alephdata/react-ftm": "1.9.1",
+    "@alephdata/react-ftm": "1.10.11",
     "@blueprintjs/core": "^3.20.0",
     "@blueprintjs/select": "^3.11.2",
     "@blueprintjs/table": "^3.8.2",
