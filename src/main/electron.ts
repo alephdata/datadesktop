@@ -92,7 +92,7 @@ class App {
   }
 
   openFileDialog() {
-    dialog.showOpenDialog({filters:[{name: '*',extensions:['vis']}]}).then(({filePaths}) => {
+    dialog.showOpenDialog({filters:[{name: '*',extensions:['ftm','vis']}]}).then(({filePaths}) => {
       if (filePaths && filePaths.length > 0) {
         filePaths.forEach(filePath => {
           this.openFile(filePath)

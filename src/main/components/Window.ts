@@ -57,7 +57,7 @@ export class Window {
     } else {
       dialog.showSaveDialog((this.win, {defaultPath: ''}) as SaveDialogOptions).then(({filePath, canceled}) => {
         if (!canceled && filePath) {
-          const withExtension: string = addFileExtension(filePath, '.vis')
+          const withExtension: string = addFileExtension(filePath, '.ftm')
           this.writeFile(withExtension, graphData)
         }
       })

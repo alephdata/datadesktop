@@ -19,10 +19,16 @@
     "publish": "github",
     "afterSign": "scripts/notarize.js",
     "artifactName": "${productName}.${ext}",
-    "fileAssociations": {
-      "ext": "vis",
-      "name": "VIS"
-    },
+    "fileAssociations": [
+      {
+        "ext": "ftm",
+        "name": "FTM"
+      },
+      {
+        "ext": "vis",
+        "name": "VIS"
+      },
+    ],
     "files": [
       "build/**/*",
       "node_modules/**/*",
