@@ -1,5 +1,5 @@
 import React from 'react'
-import { EntityManager, GraphConfig, GraphLayout, GraphLogo, Viewport, VisGraph } from '@alephdata/react-ftm';
+import { EntityManager, GraphConfig, GraphLayout, GraphLogo, Viewport, NetworkDiagram } from '@alephdata/react-ftm';
 import logoBase64 from './static/logoBase64';
 
 const logo = new GraphLogo({
@@ -8,7 +8,6 @@ const logo = new GraphLogo({
 });
 
 const config = new GraphConfig({ editorTheme: "dark", toolbarPosition: 'top', logo });
-const entityManager = new EntityManager();
 
 interface IAppProps {
   ipcRenderer: any
@@ -20,7 +19,7 @@ interface IAppState {
   viewport: Viewport
 }
 
-export default class Vis2 extends React.Component <IAppProps, IAppState> {
+export default class App extends React.Component <IAppProps, IAppState> {
   saveTimeout: any
 
   constructor(props: any) {
@@ -36,12 +35,14 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
         layout: GraphLayout.fromJSON(config, entityManager, parsed.layout),
         viewport: Viewport.fromJSON(config, parsed.viewport),
       }
+      this.entityManager = EntityManager.fromJSON({}, parsed.entities);
     } else {
       this.state = {
         // @ts-ignore
         layout: new GraphLayout(config, entityManager),
         viewport: new Viewport(config)
       }
+      this.entityManager = new EntityManager();
     }
 
     this.updateLayout = this.updateLayout.bind(this);
@@ -65,6 +66,7 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
     const { ipcRenderer } = this.props;
     const { layout, viewport } = this.state
     const graphData = JSON.stringify({
+      entities: this.entityManager.toJSON(),
       layout: layout.toJSON(),
       viewport: viewport.toJSON()
     })
@@ -73,12 +75,14 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
   }
 
   openFile(data: any) {
-    const { layout, viewport } = JSON.parse(data)
-
+    const parsed = JSON.parse(data);
+    // supports legacy .vis files with layout.entities
+    const { entities, ...layout } = parsed.layout;
+    this.entityManager = EntityManager.fromJSON({}, entities || parsed.entities);
     this.setState({
       // @ts-ignore
-      layout: GraphLayout.fromJSON(config, entityManager, layout),
-      viewport: Viewport.fromJSON(config, viewport),
+      layout: GraphLayout.fromJSON(config, layout),
+      viewport: Viewport.fromJSON(config, parsed.viewport),
     })
   }
 
@@ -116,6 +120,7 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
 
   saveToLocalStorage({ layout, viewport }: { layout?: GraphLayout, viewport?: Viewport }) {
     const graphData = JSON.stringify({
+      entities: this.entityManager.toJSON(),
       layout: layout ? layout.toJSON() : this.state.layout.toJSON(),
       viewport: viewport ? viewport.toJSON() : this.state.viewport.toJSON()
     })
@@ -126,9 +131,9 @@ export default class Vis2 extends React.Component <IAppProps, IAppState> {
     const { layout, locale, viewport } = this.state;
 
     return (
-      <VisGraph
+      <NetworkDiagram
         config={config}
-        entityManager={entityManager}
+        entityManager={this.entityManager}
         layout={layout}
         viewport={viewport}
         updateLayout={this.updateLayout}
