@@ -20,6 +20,7 @@ interface IAppState {
 }
 
 export default class App extends React.Component <IAppProps, IAppState> {
+  entityManager: EntityManager
   saveTimeout: any
 
   constructor(props: any) {
@@ -32,14 +33,14 @@ export default class App extends React.Component <IAppProps, IAppState> {
       const parsed = JSON.parse(storedGraphData)
       this.state = {
         // @ts-ignore
-        layout: GraphLayout.fromJSON(config, entityManager, parsed.layout),
+        layout: GraphLayout.fromJSON(config, parsed.layout),
         viewport: Viewport.fromJSON(config, parsed.viewport),
       }
       this.entityManager = EntityManager.fromJSON({}, parsed.entities);
     } else {
       this.state = {
         // @ts-ignore
-        layout: new GraphLayout(config, entityManager),
+        layout: new GraphLayout(config),
         viewport: new Viewport(config)
       }
       this.entityManager = new EntityManager();
@@ -64,7 +65,7 @@ export default class App extends React.Component <IAppProps, IAppState> {
 
   saveFile(saveAs: boolean) {
     const { ipcRenderer } = this.props;
-    const { layout, viewport } = this.state
+    const { layout, viewport } = this.state;
     const graphData = JSON.stringify({
       entities: this.entityManager.toJSON(),
       layout: layout.toJSON(),
