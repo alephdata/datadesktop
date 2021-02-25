@@ -85,7 +85,11 @@ export class Window {
     })
   }
 
-  exportSvg(data: any) {
+  sendExportSvg() {
+    this.sendMessage('EXPORT_SVG');
+  }
+
+  receiveExportSvg(data: any) {
     dialog.showSaveDialog((this.win, {defaultPath: ''}) as SaveDialogOptions).then(({filePath, canceled}) => {
       if (!canceled && filePath) {
         const withExtension: string = addFileExtension(filePath, '.svg')

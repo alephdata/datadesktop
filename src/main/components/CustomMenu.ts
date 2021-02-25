@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Menu } from 'electron'
 
-export const CustomMenu = (sendSaveFile: any, newFile: any, openFileDialog: any) => {
+export const CustomMenu = (sendSaveFile: any, newFile: any, openFileDialog: any, sendExportSvg: any) => {
     return Menu.buildFromTemplate([
         {
             label: 'Aleph Data Desktop',
@@ -43,6 +43,12 @@ export const CustomMenu = (sendSaveFile: any, newFile: any, openFileDialog: any)
                 accelerator: 'cmd+O',
                 click: () => {
                   openFileDialog()
+                }
+              },
+              {
+                label: 'Export as SVG',
+                click: () => {
+                  sendExportSvg()
                 }
               }
             ]

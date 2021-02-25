@@ -1,5 +1,5 @@
 import React from 'react'
-import { EntityManager, GraphConfig, GraphLayout, GraphLogo, Viewport, NetworkDiagram } from '@alephdata/react-ftm';
+import { EntityManager, exportSvg, GraphConfig, GraphLayout, GraphLogo, Viewport, NetworkDiagram } from '@alephdata/react-ftm';
 import logoBase64 from './static/logoBase64';
 
 const logo = new GraphLogo({
@@ -22,6 +22,7 @@ interface IAppState {
 export default class App extends React.Component <IAppProps, IAppState> {
   entityManager: EntityManager
   saveTimeout: any
+  svgRef: React.RefObject<SVGSVGElement>
 
   constructor(props: any) {
     super(props)
@@ -51,6 +52,8 @@ export default class App extends React.Component <IAppProps, IAppState> {
     this.saveFile = this.saveFile.bind(this);
     this.openFile = this.openFile.bind(this);
     this.exportSvg = this.exportSvg.bind(this);
+
+    this.svgRef = React.createRef();
   }
 
   attachListeners() {
@@ -59,6 +62,7 @@ export default class App extends React.Component <IAppProps, IAppState> {
     if (ipcRenderer) {
       ipcRenderer.on('SAVE_FILE', (event: any, saveAs: boolean) => this.saveFile(saveAs))
       ipcRenderer.on('OPEN_FILE', (event: any, data: any) => this.openFile(data))
+      ipcRenderer.on('EXPORT_SVG', (event: any) => this.exportSvg())
       ipcRenderer.on('SET_LOCALE', (event: any, locale: any) => this.setLocale(locale))
     }
   }
@@ -91,10 +95,13 @@ export default class App extends React.Component <IAppProps, IAppState> {
     this.setState({ locale });
   }
 
-  exportSvg(data: any) {
+  exportSvg() {
     const { ipcRenderer } = this.props;
+    const { layout, viewport } = this.state;
 
-    ipcRenderer.send('EXPORT_SVG', data)
+    const data = exportSvg(layout, viewport, this.svgRef.current);
+
+    ipcRenderer.send('RECEIVE_EXPORT_SVG', data)
   }
 
   updateLayout(layout: GraphLayout, historyModified: boolean = false) {
@@ -139,9 +146,9 @@ export default class App extends React.Component <IAppProps, IAppState> {
         viewport={viewport}
         updateLayout={this.updateLayout}
         updateViewport={this.updateViewport}
-        exportSvg={this.exportSvg}
         locale={locale}
         writeable
+        svgRef={this.svgRef}
       />
     )
   }
