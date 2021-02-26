@@ -63,7 +63,7 @@ class App {
   attachListeners() {
     ipcMain.on('SAVE_FILE_SUCCESS', this.receiveSaveFile.bind(this))
     ipcMain.on('GRAPH_CHANGED', this.onGraphChanged.bind(this))
-    ipcMain.on('RECEIVE_EXPORT_SVG', this.reveiveExportSvg.bind(this))
+    ipcMain.on('RECEIVE_EXPORT_SVG', this.receiveExportSvg.bind(this))
   }
 
   onWindowFocus(id: number) {
@@ -82,8 +82,8 @@ class App {
     this.windows[this.activeWindow].onGraphChanged()
   }
 
-  exportSvg(event: any) {
-    this.windows[this.activeWindow].exportSvg()
+  exportSvg() {
+    this.windows[this.activeWindow].sendExportSvg()
   }
 
   receiveExportSvg(event: any, data: any) {
@@ -117,9 +117,5 @@ class App {
       const newWindow = this.newFile()
       newWindow.sendOpenFile(filePath, data)
     });
-  }
-
-  exportSvg() {
-    this.windows[this.activeWindow].exportSvg()
   }
 }
