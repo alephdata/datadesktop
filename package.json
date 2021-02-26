@@ -1,6 +1,6 @@
 {
   "name": "@alephdata/datadesktop",
-  "version": "2.0.0",
+  "version": "2.3.2",
   "description": "Desktop graph visualization application",
   "repository": {
     "type": "git",
