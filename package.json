@@ -52,14 +52,14 @@
     }
   },
   "dependencies": {
-    "@babel/runtime": "^7.10.2",
-    "electron-is-dev": "^1.1.0",
-    "electron-log": "^3.0.7",
-    "electron-updater": "^4.3.5",
+    "@babel/runtime": "^7.16.7",
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.4.5",
+    "electron-updater": "^4.6.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-scripts": "^4.0.3",
-    "typescript": "^3.7.2"
+    "typescript": "^4.5.5"
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -101,10 +101,10 @@
     "@types/react-dom": "^17.0.1",
     "concurrently": "^4.1.1",
     "cross-env": "^5.2.0",
-    "electron": "^11.3.0",
-    "electron-builder": "^22.9.1",
-    "electron-notarize": "^1.0.0",
-    "electron-reload": "^1.5.0",
+    "electron": "^16.0.8",
+    "electron-builder": "^22.14.5",
+    "electron-notarize": "^1.1.1",
+    "electron-reload": "^2.0.0-alpha.1",
     "nodemon": "^1.19.1",
     "tsc-watch": "^2.4.0",
     "wait-on": "^3.2.0",

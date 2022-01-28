@@ -20,7 +20,7 @@ export class Window {
       width: 1000,
       height: 800,
       show: false,
-      webPreferences: {nodeIntegration: true},
+      webPreferences: { preload: `../${__dirname}/preload.js` },
     });
 
     win.loadURL(
