@@ -20,7 +20,7 @@ export class Window {
       width: 1000,
       height: 800,
       show: false,
-      webPreferences: { preload: `../${__dirname}/preload.js` },
+      webPreferences: { preload: path.join(__dirname, "../../src/main/preload.js") },
     });
 
     win.loadURL(

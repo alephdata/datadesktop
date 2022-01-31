@@ -5,14 +5,14 @@ import App from './renderer/App';
 import * as serviceWorker from './renderer/serviceWorker';
 declare global {
     interface Window {
-      ipcRenderer: any;
+      electron: any;
     }
 }
 
 let ipcRenderer;
 
 if (process.env.REACT_APP_ENV !== 'browser_only') {
-  ipcRenderer = window.ipcRenderer;
+  ipcRenderer = window.electron.ipcRenderer;
 }
 
 ReactDOM.render(<App ipcRenderer={ipcRenderer} />, document.getElementById('root'));
