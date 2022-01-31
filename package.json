@@ -94,20 +94,14 @@
     "@blueprintjs/core": "3.36.0",
     "@blueprintjs/select": "3.15.0",
     "@blueprintjs/table": "^3.8.2",
-    "@types/electron": "^1.6.10",
-    "@types/jest": "24.0.15",
     "@types/node": "^14.14.31",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
-    "concurrently": "^4.1.1",
     "cross-env": "^5.2.0",
     "electron": "^16.0.8",
     "electron-builder": "^22.14.5",
     "electron-notarize": "^1.1.1",
     "electron-reload": "^2.0.0-alpha.1",
-    "nodemon": "^1.19.1",
-    "tsc-watch": "^2.4.0",
-    "wait-on": "^3.2.0",
-    "watch": "^1.0.2"
+    "tsc-watch": "^2.4.0"
   }
 }
