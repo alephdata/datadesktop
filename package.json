@@ -1,6 +1,6 @@
 {
   "name": "@alephdata/datadesktop",
-  "version": "2.3.2",
+  "version": "2.6.3",
   "description": "Desktop graph visualization application",
   "repository": {
     "type": "git",
@@ -58,7 +58,7 @@
     "electron-updater": "^4.6.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-scripts": "^5.0.0",
+    "react-scripts": "^4.0.3",
     "typescript": "^4.5.5"
   },
   "scripts": {
