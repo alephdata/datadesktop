@@ -30,6 +30,7 @@
       }
     ],
     "files": [
+      "src/main/preload.js",
       "build/**/*",
       "node_modules/**/*",
       "icon.*"
