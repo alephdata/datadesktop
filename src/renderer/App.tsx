@@ -60,10 +60,10 @@ export default class App extends React.Component <IAppProps, IAppState> {
     const { ipcRenderer } = this.props;
 
     if (ipcRenderer) {
-      ipcRenderer.on('SAVE_FILE', (event: any, saveAs: boolean) => this.saveFile(saveAs))
-      ipcRenderer.on('OPEN_FILE', (event: any, data: any) => this.openFile(data))
-      ipcRenderer.on('EXPORT_SVG', (event: any) => this.exportSvg())
-      ipcRenderer.on('SET_LOCALE', (event: any, locale: any) => this.setLocale(locale))
+      ipcRenderer.onSaveFile((event: any, saveAs: boolean) => this.saveFile(saveAs));
+      ipcRenderer.onOpenFile((event: any, data: any) => this.openFile(data));
+      ipcRenderer.onExportSvg((event: any) => this.exportSvg());
+      ipcRenderer.onSetLocale((event: any, locale: any) => this.setLocale(locale));
     }
   }
 
@@ -76,7 +76,7 @@ export default class App extends React.Component <IAppProps, IAppState> {
       viewport: viewport.toJSON()
     })
 
-    ipcRenderer.send('SAVE_FILE_SUCCESS', {graphData, saveAs})
+    ipcRenderer.sendSaveFileSuccess({ graphData, saveAs });
   }
 
   openFile(data: any) {
@@ -100,8 +100,7 @@ export default class App extends React.Component <IAppProps, IAppState> {
     const { layout, viewport } = this.state;
 
     const data = exportSvg(layout, viewport, this.svgRef.current);
-
-    ipcRenderer.send('RECEIVE_EXPORT_SVG', data)
+    ipcRenderer.sendReceiveExportSvg(data);
   }
 
   updateLayout(layout: GraphLayout, historyModified: boolean = false) {
@@ -111,7 +110,7 @@ export default class App extends React.Component <IAppProps, IAppState> {
 
     if (historyModified) {
       if (ipcRenderer) {
-        ipcRenderer.send('GRAPH_CHANGED')
+        ipcRenderer.sendGraphChanged();
       } else {
         this.saveToLocalStorage({ layout });
       }
