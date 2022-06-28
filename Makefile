@@ -1,7 +1,7 @@
 MAKEFLAGS += -j2
 
 install:
-	npm install && npm link @alephdata/react-ftm
+	npm install
 
 link:
 	npm link @alephdata/react-ftm
