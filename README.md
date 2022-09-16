@@ -2,7 +2,7 @@
 
 ***
 
-**Aleph Data Desktop has been deprecated and will not receive any further updates. All of Data Desktop’s features are also available within Aleph. Please refer to the Aleph documentation to find out [how to create network diagrams in Aleph](https://docs.alephdata.org/guide/building-out-your-investigation/network-diagrams) and how to [import diagrams created in Data Desktop](https://docs.alephdata.org/guide/building-out-your-investigation/network-diagrams).**
+**September 2022: Aleph Data Desktop has been deprecated and will not receive any further updates. All of Data Desktop’s features are also available within Aleph. Please refer to the Aleph documentation to find out [how to create network diagrams in Aleph](https://docs.alephdata.org/guide/building-out-your-investigation/network-diagrams) and how to [import diagrams created in Data Desktop](https://docs.alephdata.org/guide/building-out-your-investigation/network-diagrams).**
 
 ***
 
